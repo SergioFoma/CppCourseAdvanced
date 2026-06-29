@@ -1,0 +1,21 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-fsanitize=address",
+      "-fsanitize=undefined",
+      "-std=gnu++17",
+      "-c",
+      "-o",
+      "CMakeFiles/ArithmeticOperations.dir/arithmetic_operations.cpp.o",
+      "/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/ArithmeticOperations/arithmetic_operations.cpp"
+    ],
+    "directory": "/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/ArithmeticOperations/Build",
+    "file": "/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/ArithmeticOperations/arithmetic_operations.cpp",
+    "output": "/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/ArithmeticOperations/Build/CMakeFiles/ArithmeticOperations.dir/arithmetic_operations.cpp.o"
+  }
+]
