@@ -1,0 +1,277 @@
+#include <algorithm>
+#include <cstring>
+
+#include "string.hpp"
+
+// Constructors
+
+// Delegatin constructors
+String::String(size_t n): chars(new char[n + 1]), sz(n), cap(n + 1) {
+    chars[sz] = '\0';
+}
+
+String::String() = default;
+
+String::String(const char* str): String(strlen(str)) {
+    std::copy(str, str + sz, chars);
+}
+
+String::String(size_t n, char symbol): String(n) {
+    memset(chars, symbol, n);
+}
+
+String::String(const String& other): String(other.sz) {
+    std::copy(other.chars, other.chars + sz, chars);
+}
+
+String::String(const char* str, size_t n): String(n) {
+    std::copy(str, str + n, chars);
+}
+
+String::String(const char* str, size_t start, size_t n): String(n) {
+    std::copy(str + start, str + start + n, chars);
+}
+
+String::String(const String& other, size_t n): String(n) {
+    char* other_str = other.chars;
+    std::copy(other_str, other_str + n, chars);
+}
+
+String::String(const String& other, size_t start, size_t n): String(n) {
+    char* other_str = other.chars;
+    std::copy(other_str + start, other_str + start + n, chars);
+}
+
+// Swap and copy
+String& String::operator=(const char* str) {
+    delete[] chars;
+    sz = strlen(str);
+    cap = sz + 1;
+    chars = new char[cap];
+    std::copy(str, str + cap, chars);
+
+    return *this;
+}
+String& String::operator=(String other) {           // we can assign constant structures
+    this->swap(other);
+
+    return *this;
+}
+
+// Getters
+
+size_t String::size() const {
+    return this->sz;
+}
+
+size_t String::length() const {
+    return this->sz;
+}
+
+size_t String::capacity() const {
+    return this->cap;
+}
+
+const char* String::get_chars() const {
+    return this->chars;
+}
+
+// Methods
+
+String String::operator+(const char* str) const {
+    size_t other_sz = strlen(str);
+    size_t other_cap = other_sz + 1;
+    
+    String result(sz + other_sz);
+    std::copy(chars, chars + sz, result.chars);
+    std::copy(str, str + other_cap, result.chars + sz);
+    
+    return result;
+}
+
+String String::operator+(const String& other) const {
+    return *this + other.chars;
+}
+
+String& String::operator+=(const char* str) {
+    *this = *this + str;
+    
+    return *this;
+}
+
+String& String::operator+=(const String& other) {
+    return String::operator+=(other.chars);
+}
+
+bool String::empty() const {
+    return sz == 0;
+}
+
+size_t String::max_size() const {
+    if (cap > 0) {
+        return cap - 1;
+    }
+
+    return 0;
+}
+
+void String::resize(size_t n) {
+    if (n == sz) {
+        return ;
+    }
+    char* new_chars = new char[n + 1];
+    size_t min_sz = std::min(sz, n);
+    std::copy(chars, chars + min_sz, new_chars);
+    new_chars[n] = '\0';
+    delete[] chars;
+    
+    chars = new_chars;
+    sz = n;
+    cap = n + 1;
+}
+
+void String::resize(size_t n, char symbol) {
+    size_t old_sz = sz;
+    this->resize(n);
+
+    if (n > old_sz){
+        memset(chars + old_sz, symbol, n - old_sz);
+    }
+}
+
+void String::reserve(size_t n) {
+    if(n <= cap) {
+        return ;
+    }
+
+    this->resize(n);
+}
+
+void String::shrink_to_fit(size_t n) {
+    char* new_chars = new char[n];
+    std::copy(chars, chars + sz, new_chars);
+    delete[] chars;
+    sz = n;
+    cap = n;
+    chars = new_chars;
+}
+
+char& String::operator[](size_t n) const {
+    return chars[n];
+}
+
+char& String::front() const {
+    return chars[0];
+}
+
+char& String::back() const {
+    return chars[sz - 1];
+}
+
+void String::push_back(char symbol) {
+    if (sz == cap - 1) {
+        this->resize(cap);
+    }
+
+    this->chars[sz - 1] = symbol;
+}
+
+void String::insert(size_t pos, const char* str) {
+    size_t count = strlen(str);
+    size_t old_sz = sz;
+    if (sz + count >= cap) {
+        this->resize(sz + count); 
+    }
+
+    std::copy(chars + pos, chars + old_sz, chars + pos + count);
+    std::copy(str, str + count, chars + pos);
+}
+
+void String::insert(size_t pos, const String& other) {
+    insert(pos, other.chars);
+}
+
+void String::erase(size_t pos) {
+    this->erase(pos, 1);
+}
+void String::erase(size_t pos, size_t count) {
+    memset(chars + pos, '\0', count);
+    memmove(chars + pos, chars + pos + count, cap - pos - count);
+    sz -= count;
+}
+
+void String::clear() {
+    memset(chars, '\0', sz);
+    sz = 0;
+}
+
+void String::replace(size_t pos, size_t count, const char* str) {
+    this->erase(pos, count);
+    this->insert(pos, str);
+}
+
+void String::replace(size_t pos, size_t count, const String& other) {
+    this->replace(pos, count, other.chars);
+}
+
+void String::replace(size_t start, size_t end, char old_symb, char new_symb) {
+    for(size_t index = start; index < end; ++index){
+        if(chars[index] == old_symb){
+            chars[index] = new_symb;
+        }
+    }
+}
+
+void String::swap(String& other) {
+    std::swap(chars, other.chars);
+    std::swap(sz, other.sz);
+    std::swap(cap, other.cap);
+}
+
+void String::pop_back() {
+    chars[sz - 1] = '\0';
+    --sz;
+}
+
+std::optional<size_t> String::find_first(char symbol) const {
+    for(size_t index = 0; index < sz; ++index) {
+        if(chars[index] == symbol) {
+            return index;
+        }
+    }
+
+    return std::nullopt; 
+}
+
+std::optional<size_t> String::find_last(char symbol) const {
+    size_t last_find = sz;
+
+    for(size_t index = 0; index < sz; ++index) {
+        if (chars[index] == symbol) {
+            last_find = index;
+        }
+    }
+    
+    if (last_find == sz) {
+        return std::nullopt;
+    }
+    return last_find;
+}
+
+String String::substr(size_t pos, size_t count) {
+    String other(count);
+
+    std::copy(chars + pos, chars + pos + count, other.chars);
+
+    return other;
+}
+
+int String::compare(const String& other) const {
+    return strcmp(chars, other.chars);
+}
+
+// Destructor
+
+String::~String() {
+    delete[] chars;
+}

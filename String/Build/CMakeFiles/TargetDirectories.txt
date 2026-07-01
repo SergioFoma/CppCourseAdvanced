@@ -1,0 +1,3 @@
+/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/String/Build/CMakeFiles/string.dir
+/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/String/Build/CMakeFiles/edit_cache.dir
+/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/String/Build/CMakeFiles/rebuild_cache.dir
