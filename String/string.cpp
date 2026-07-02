@@ -58,7 +58,6 @@ String& String::operator=(String other) & {           // we can assign constant 
 }
 
 // Getters
-
 size_t String::size() const {
     return this->sz;
 }
@@ -76,7 +75,6 @@ const char* String::get_chars() const {
 }
 
 // Function
-
 String operator+(const String& left, const String& right) {
    String copy = left;
    copy += right;
@@ -91,8 +89,14 @@ String operator+(const char* left, const String& right) {
     return String(left) + right;
 }
 
+
+std::ostream& operator<<(std::ostream& out, const String& str) {
+    return out << str.get_chars();
+}
+
+// Methods
 String& String::operator+=(const char* str) {
-    
+
     size_t str_size = strlen(str);
     size_t str_cap = str_size + 1;
     char* new_chars = chars;
@@ -102,7 +106,7 @@ String& String::operator+=(const char* str) {
         std::copy(chars, chars + sz, new_chars);
         flag = true;
     }
-    
+
     std::copy(str, str + str_cap, new_chars + sz);
 
     if (flag) {
@@ -139,7 +143,7 @@ void String::resize(size_t n) {
     std::copy(chars, chars + min_sz, new_chars);
     new_chars[n] = '\0';
     delete[] chars;
-    
+
     chars = new_chars;
     sz = n;
     cap = n + 1;
@@ -158,7 +162,7 @@ void String::reserve(size_t n) {
     if (n < cap) {
         return ;
     }
-    
+
     size_t old_sz = sz;
     this->resize(n);                // reserve doesn't change size
     sz = old_sz;
@@ -201,7 +205,7 @@ void String::push_back(char symbol) {
     if (sz == cap - 1) {
         this->reserve(cap * 2);
     }
-    
+
     chars[sz++] = symbol;
     chars[sz] = '\0';
 }
@@ -209,7 +213,7 @@ void String::push_back(char symbol) {
 void String::insert(size_t pos, const char* str) {
     size_t count = strlen(str);
     size_t new_sz = sz + count;
-    
+
     if (new_sz >= cap) {
         char* new_chars = new char[new_sz + 1];
         std::copy(chars, chars + pos, new_chars);
@@ -238,7 +242,7 @@ void String::erase(size_t pos) {
 }
 void String::erase(size_t pos, size_t count) {
     if (pos >= sz) {
-        return; 
+        return;
     }
     if (pos + count > sz) {
         count = sz - pos;
@@ -289,7 +293,7 @@ std::optional<size_t> String::find_first(char symbol) const {
         }
     }
 
-    return std::nullopt; 
+    return std::nullopt;
 }
 
 std::optional<size_t> String::find_last(char symbol) const {
@@ -300,7 +304,7 @@ std::optional<size_t> String::find_last(char symbol) const {
             last_find = index;
         }
     }
-    
+
     if (last_find == sz) {
         return std::nullopt;
     }

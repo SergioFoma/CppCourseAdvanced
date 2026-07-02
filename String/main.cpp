@@ -5,7 +5,7 @@
 void dump_string(const String& s);
 
 int main(){
-   
+
     String s1;
     dump_string(s1);
 
@@ -23,7 +23,7 @@ int main(){
 
     String s5(4, 'd');
     dump_string(s5);
-    
+
     String s6 {s2};                                 // correct copy
     dump_string(s6);
 
@@ -41,7 +41,7 @@ int main(){
 
     s10 = s5;                                       // correct assignemnt
     dump_string(s10);
-    
+
     // Concatenation tests
 
     String s11 = s3 + " lalala" + " !";             // correct: String + const char*
@@ -65,7 +65,7 @@ int main(){
     s15.resize(5, 'a');
     dump_string(s15);
     std::cout << "s15.front = " << s15.front() << ", s15.back = " << s15.back() << ", s15[3] = " << s15[3] << "\n\n";
-    
+
     std::cout << "Test +=\n";
    String s16 {"Bob"};
    s16 += s16;
@@ -116,18 +116,14 @@ int main(){
     s24 += s3;
     dump_string(s24);
 
+    String str25;
+    std::cin >> str25;
+    dump_string(str25);
 }
 
 void dump_string(const String& s){
 
     std::cout << "size = " << s.size() << '\n';
     std::cout << "capacity = " << s.capacity() << '\n';
-    
-    const char* chars = s.get_chars();
-    if (!chars){
-        std::cout << "string is null ptr\n\n";
-        return ;
-    }
-
-    std::cout << "string = " << chars << '\n' << '\n';
+    std::cout << "string = " << s << '\n' << '\n';
 }

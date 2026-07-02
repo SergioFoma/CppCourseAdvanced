@@ -2,6 +2,8 @@
 #define STRING_HPP
 
 #include <optional>
+#include <ostream>
+#include <istream>
 
 class String{
 private:
@@ -11,7 +13,7 @@ private:
 
     explicit String(size_t n);
 public:
-    
+
     String();
     String(const char* str);
     String(size_t n, char symbol);
@@ -22,8 +24,8 @@ public:
     String(const String& other, size_t start, size_t n);
 
 
-    String& operator=(const char* str) &;               // & - only lvalue
-    String& operator=(String other) &;                  // & - only lvalue
+    String& operator=(const char* str) &;                   // & - only lvalue
+    String& operator=(String other) &;                      // & - only lvalue
     String& operator+=(const char* str);
     String& operator+=(const String& other);
     char& operator[](size_t n);
@@ -57,13 +59,15 @@ public:
     std::optional<size_t> find_last(char symbol) const;
     String substr(size_t pos, size_t count);
     int compare(const String& other) const;
-     
+
     ~String();
 };
 
 String operator+(const String& left, const String& right);
 String operator+(const String& left, const char* right);
 String operator+(const char* left, const String& right);
+
+std::ostream& operator<<(std::ostream& out, const String& str);
 
 
 #endif
