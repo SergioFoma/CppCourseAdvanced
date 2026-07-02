@@ -45,13 +45,13 @@ String::String(const String& other, size_t start, size_t n): String(n) {
 }
 
 // Swap and copy
-String& String::operator=(const char* str) {
+String& String::operator=(const char* str) & {
     String other(str);
     this->swap(other);
 
     return *this;
 }
-String& String::operator=(String other) {           // we can assign constant structures
+String& String::operator=(String other) & {           // we can assign constant structures
     this->swap(other);
 
     return *this;

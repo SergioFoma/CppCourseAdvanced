@@ -22,8 +22,8 @@ public:
     String(const String& other, size_t start, size_t n);
 
 
-    String& operator=(const char* str);
-    String& operator=(String other);
+    String& operator=(const char* str) &;               // & - only lvalue
+    String& operator=(String other) &;                  // & - only lvalue
     String& operator+=(const char* str);
     String& operator+=(const String& other);
     char& operator[](size_t n);
