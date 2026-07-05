@@ -3,7 +3,6 @@
 
 #include <optional>
 #include <ostream>
-#include <istream>
 
 class String{
 private:
@@ -66,6 +65,13 @@ public:
 String operator+(const String& left, const String& right);
 String operator+(const String& left, const char* right);
 String operator+(const char* left, const String& right);
+
+bool operator<(const String& left, const String& right);
+bool operator>(const String& left, const String& right);
+bool operator<=(const String& left, const String& right);
+bool operator>=(const String& left, const String& right);
+bool operator==(const String& left, const String& right);
+bool operator!=(const String& left, const String& right);
 
 std::ostream& operator<<(std::ostream& out, const String& str);
 

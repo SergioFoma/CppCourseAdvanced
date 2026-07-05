@@ -116,9 +116,10 @@ int main(){
     s24 += s3;
     dump_string(s24);
 
-    String str25;
-    std::cin >> str25;
-    dump_string(str25);
+    String str25 = "Hello";
+    String str26("Hello Kella");
+
+    std::cout << "result om compare = " << ( str25 > str26) << '\n';
 }
 
 void dump_string(const String& s){

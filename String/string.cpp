@@ -89,6 +89,50 @@ String operator+(const char* left, const String& right) {
     return String(left) + right;
 }
 
+bool operator<(const String& left, const String& right) {
+    size_t left_sz = left.size(), right_sz = right.size(), min_sz = std::min(left_sz, right_sz);
+    size_t index = 0;
+
+    while (index < min_sz && left[index] == right[index]) {
+        ++index;
+    }
+
+    if (index == min_sz) {
+        return left_sz < right_sz;
+    }
+
+    return left[index] < right[index];
+}
+
+bool operator>=(const String& left, const String& right) {
+    return !(left < right);
+}
+
+bool operator==(const String& left, const String& right) {
+    size_t left_sz = left.size(), right_sz = right.size();
+
+    if(left_sz != right_sz) {
+        return false;
+    }
+
+    size_t index = 0;
+    while (index < left_sz && left[index] == right[index]) {
+        ++index;
+    }
+
+    return index == left_sz;
+}
+
+bool operator>(const String& left, const String& right) {
+    return right < left;
+}
+
+bool operator<=(const String& left, const String& right) {
+    return !(left > right);
+}
+bool operator!=(const String& left, const String& right) {
+    return !(left == right);
+}
 
 std::ostream& operator<<(std::ostream& out, const String& str) {
     return out << str.get_chars();
