@@ -7,24 +7,41 @@
 class BigInteger {
 private:
     std::vector<int> digits;
-    const int base = 1e9;
+    static const int base = 1e9;
     bool is_positive = true;
     void convert_system(unsigned long long num);
-    int max_digits_len() const;
+    static int max_digits_len();
+    static int get_base();
 public:
     BigInteger();
     BigInteger(int num);
     BigInteger(long long num);
     BigInteger(const std::string& str);
-
-    const std::vector<int>& get_digits() const;             // FOR DEBUG
-    int get_base() const;                                   // FOR DEBUG
-    bool get_sign() const;                                  // FRO DEBUG
+    
+    explicit operator bool() const;
+    std::string toString() const;
+    int signum() const;
+    void changeSignum();
+    BigInteger operator-() const;
+    BigInteger& operator++();
+    BigInteger operator++(int);
+    BigInteger& operator--();
+    BigInteger operator--(int);
+    BigInteger& operator+=(const BigInteger& num);
+    BigInteger& operator-=(const BigInteger& num);
+    BigInteger& operator*=(const BigInteger& num);
+    BigInteger& operator/=(const BigInteger& num);
+    BigInteger& operator%=(const BigInteger& num);
 
     ~BigInteger();
 };
 
-
+bool operator<(const BigInteger& first, const BigInteger& second);
+bool operator>(const BigInteger& first, const BigInteger& second);
+bool operator<=(const BigInteger& first, const BigInteger& second);
+bool operator>=(const BigInteger& first, const BigInteger& second);
+bool operator==(const BigInteger& first, const BigInteger& second);
+bool operator!=(const BigInteger& first, const BigInteger& second);
 
 
 
