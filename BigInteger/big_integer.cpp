@@ -13,7 +13,7 @@ BigInteger::BigInteger(): is_positive(true) {
 
 BigInteger::BigInteger(long long num): is_positive(num >= 0) {
     if (num == std::numeric_limits<long long>::min()) {
-        unsigned long long un_num = static_cast<unsigned long long>(num);       // -2^32 + 2^64 = 2^32 - correct positive num
+        unsigned long long un_num = -static_cast<unsigned long long>(num);       // 2^64 - (-2^63 + 2^64) = 2^63 - correct positive num
         std::cout << "un_num = " << un_num << '\n';
         convert_system(un_num);
     }
@@ -345,7 +345,8 @@ BigInteger& BigInteger::operator++() {
     do {
         digits[index] = 0;
         ++index;
-        ++digits[index];
+        if (index == size) digits.push_back(unit);
+        else               ++digits[index];
     } while (index < size - 1 && digits[index] > max_num);
 
     if (digits[index] > max_num) {
@@ -466,7 +467,7 @@ BigInteger& BigInteger::operator-=(const BigInteger& num) {
     if (*this < copy_num) std::swap(digits, copy_num.digits);
     is_positive = old_is_positive;
 
-    size_t first_sz = digits.size(), second_sz = num.digits.size();
+    size_t first_sz = digits.size(), second_sz = copy_num.digits.size();
     size_t min_sz = std::min(first_sz, second_sz);
     int min_num = 0;
     int delta = 0;
@@ -580,25 +581,24 @@ bool operator<(const BigInteger& first, const BigInteger& second){
         return first_signum < second_signum ? true : false;
     }
     
-    std::string first_str = first.toString(), second_str = second.toString();
-    size_t first_sz = first_str.size(), second_sz = second_str.size();
+    const std::vector<int>& first_digits = first.digits;
+    const std::vector<int>& second_digits = second.digits;
+    size_t first_sz = first_digits.size(), second_sz = second_digits.size();
     if (first_sz != second_sz) {
         if (first_signum == -1) return first_sz < second_sz ? false : true;
         return first_sz < second_sz ? true : false;
     }
     
-    char first_ch = '0', second_ch = '0';
     size_t index = 0;
-    if (first_signum == -1) {
-        ++index;
-    }
-    for (; index < first_sz; ++index) {
-        first_ch = first_str[index];
-        second_ch = second_str[index];
-        if (first_ch == second_ch) continue;
+    for (size_t upper_bound = first_sz; upper_bound > 0; --upper_bound) {
+        index = upper_bound - 1;
+        if (first_digits[index] == second_digits[index]) continue;
 
-        if (first_signum == -1) return first_ch < second_ch ? false : true;
-        return first_ch < second_ch ? true : false;
+        if (first_signum == 1) {
+            return first_digits[index] < second_digits[index] ? true : false;
+        }
+
+        return first_digits[index] < second_digits[index] ? false : true;
     }
 
     return false;
@@ -619,16 +619,8 @@ bool operator>=(const BigInteger& first, const BigInteger& second) {
 bool operator==(const BigInteger& first, const BigInteger& second) {
     int first_signum = first.signum(), second_signum = second.signum();
     if (first_signum != second_signum) return false;
-
-    std::string first_str = first.toString(), second_str = second.toString();
-    size_t first_sz = first_str.size(), second_sz = second_str.size();
-    if (first_sz != second_sz) return false;
-
-    for (size_t index = 0; index < first_sz; ++index) {
-        if (first_str[index] != second_str[index]) return false;
-    }
-
-    return true;
+    
+    return first.digits == second.digits;
 }
 
 bool operator!=(const BigInteger& first, const BigInteger& second) {
@@ -672,13 +664,11 @@ std::ostream& operator<<(std::ostream& out, const BigInteger& num) {
 
 std::istream& operator>>(std::istream& in, BigInteger& num) {
     std::string str;
-    char c;
 
-    while ((c = getchar()) != '\n') {
-        str.push_back(c);
+    if (in >> str) {
+        num = BigInteger(str);
     }
 
-    num = str;
     return in; 
 }
 

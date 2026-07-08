@@ -9,7 +9,7 @@
 class BigInteger {
 private:
     std::vector<int> digits;
-    static const int base = 1e9;
+    static constexpr int base = 1e9;
     bool is_positive = true;
     void convert_system(unsigned long long num);
     static int max_digits_len();
@@ -24,6 +24,8 @@ public:
     BigInteger(long long num);
     BigInteger(const std::string& str);
     
+    friend bool operator<(const BigInteger& first, const BigInteger& second);
+    friend bool operator==(const BigInteger& first, const BigInteger& second);
     explicit operator bool() const;
     std::string toString() const;
     int signum() const;

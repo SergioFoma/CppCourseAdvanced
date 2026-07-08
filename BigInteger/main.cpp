@@ -7,6 +7,7 @@ void dump(const BigInteger& integer);
 
 int main() {
     
+    /*
     BigInteger int1;
     dump(int1);
 
@@ -60,7 +61,8 @@ int main() {
     BigInteger int12("-25");
     int11 *= int12;
     dump(int11);
-    
+    */
+
     BigInteger int13("67");
     dump(int13);
 
@@ -81,6 +83,10 @@ int main() {
     std::cin >> int_from_key;
     int_from_key += int_from_key;
     dump(int_from_key);
+
+    BigInteger int15("999999999");
+    ++int15;
+    dump(int15);
 }
 
 void dump(const BigInteger& integer) {
