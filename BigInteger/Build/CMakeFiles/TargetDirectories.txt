@@ -1,3 +1,0 @@
-/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/BigInteger/Build/CMakeFiles/BigInteger.dir
-/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/BigInteger/Build/CMakeFiles/edit_cache.dir
-/home/foma/Documents/Meshcherin_2024/CppCourseAdvanced/BigInteger/Build/CMakeFiles/rebuild_cache.dir
