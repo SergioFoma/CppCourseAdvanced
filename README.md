@@ -29,7 +29,7 @@
 │    ├──📄main.cpp                        # проверка корректности работы класса
 │    ├──📄big_integer.cpp                 # определение класса
 │    └──📄big_integer.hpp                 # объявление класса
-│    └──📄big_integer.pfd                 # тз
+│    └──📄big_integer.pdf                 # тз
 ├── README.md
 ```
 
