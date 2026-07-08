@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include <ostream>
+#include <istream>
 
 class BigInteger {
 private:
@@ -12,6 +14,10 @@ private:
     void convert_system(unsigned long long num);
     static int max_digits_len();
     static int get_base();
+    void knuth_div(const BigInteger& divider, BigInteger& quotient, BigInteger& remainder);
+    void multiply_by_digit(BigInteger& num, unsigned long long divider);
+    void create_quotient(BigInteger& u_num, BigInteger& v_num, std::vector<int>& q_ans);
+    void denormalization_remainder(BigInteger& u_num, std::vector<int>& v_ans, size_t n, unsigned long long d);
 public:
     BigInteger();
     BigInteger(int num);
@@ -43,7 +49,13 @@ bool operator>=(const BigInteger& first, const BigInteger& second);
 bool operator==(const BigInteger& first, const BigInteger& second);
 bool operator!=(const BigInteger& first, const BigInteger& second);
 
+BigInteger operator+(const BigInteger& first, const BigInteger& second);
+BigInteger operator-(const BigInteger& first, const BigInteger& second);
+BigInteger operator*(const BigInteger& first, const BigInteger& second);
+BigInteger operator/(const BigInteger& first, const BigInteger& second);
+BigInteger operator%(const BigInteger& first, const BigInteger& second);
 
-
+std::ostream& operator<<(std::ostream& out, const BigInteger& num);
+std::istream& operator>>(std::istream& in, BigInteger& num);
 
 #endif 

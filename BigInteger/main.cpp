@@ -7,7 +7,7 @@ void dump(const BigInteger& integer);
 
 int main() {
     
-    /*BigInteger int1;
+    BigInteger int1;
     dump(int1);
 
     int sz2 = 1'178'234'123;
@@ -38,9 +38,7 @@ int main() {
     std::cout << "int2 > int3 ? " << (int2 > int3) << '\n';
     std::cout << "int2 < int5 ? " << (int2 < int5) << '\n';
     std::cout << "int7 < int6 ? " << (int7 < int6) << '\n';
-    */
 
-    /*BigInteger int7("-1000000000");
     ++int7;
     dump(int7);
 
@@ -52,17 +50,41 @@ int main() {
 
     dump(int7);
     dump(int8);
-    */
 
-    BigInteger int9("-200000000");
-    BigInteger int10("-2");
+    BigInteger int9("-1999999998");
+    BigInteger int10("-999999999");
     int9 -= int10;
     dump(int9);
+
+    BigInteger int11("-25");
+    BigInteger int12("-25");
+    int11 *= int12;
+    dump(int11);
+    
+    BigInteger int13("67");
+    dump(int13);
+
+    BigInteger int_copy;
+    BigInteger int14("-4");
+    int_copy = int13 + int14;
+    dump(int_copy);
+    int_copy = int13 - int14;
+    dump(int_copy);
+    int_copy = int13 * int14;
+    dump(int_copy);
+    int_copy = int13 / int14;
+    dump(int_copy);
+    int_copy = int13 % int14;
+    dump(int_copy);
+    
+    BigInteger int_from_key;
+    std::cin >> int_from_key;
+    int_from_key += int_from_key;
+    dump(int_from_key);
 }
 
 void dump(const BigInteger& integer) {
    
     std::cout << "is positive = " << integer.signum() << '\n'; 
-    std::string digits_str = integer.toString();
-    std::cout << digits_str << "\n\n";
+    std::cout << integer << '\n';
 }
