@@ -2,8 +2,11 @@
 #include <limits>
 
 #include "big_integer.hpp"
+#include "rational.hpp"
 
-void dump(const BigInteger& integer);
+void big_integer_dump(const BigInteger& integer);
+
+void rational_dump(const Rational& rational);
 
 int main() {
     
@@ -61,7 +64,6 @@ int main() {
     BigInteger int12("-25");
     int11 *= int12;
     dump(int11);
-    */
 
     BigInteger int13("67");
     dump(int13);
@@ -87,10 +89,35 @@ int main() {
     BigInteger int15("999999999");
     ++int15;
     dump(int15);
+
+    */
+
+    Rational r1;
+    rational_dump(r1);
+
+    BigInteger num("12345");
+    Rational r2(num);
+    rational_dump(r2);
+
+    Rational r3(-37);
+    rational_dump(r3);
+
+    BigInteger num1(0);
+    BigInteger num2(-5);
+    Rational r4(num1, num2);
+    rational_dump(r4);
 }
 
-void dump(const BigInteger& integer) {
+void big_integer_dump(const BigInteger& integer) {
    
     std::cout << "is positive = " << integer.signum() << '\n'; 
     std::cout << integer << '\n';
+}
+
+void rational_dump(const Rational& rational) {
+   std::cout << "numerator:\n";
+   big_integer_dump(rational.get_numerator());
+   std::cout << "denominator:\n";
+   big_integer_dump(rational.get_denominator());
+   std::cout << "\n\n";
 }

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -Werror -Wpedantic -fsanitize=address -fsanitize=undefined CMakeFiles/BigInteger.dir/main.cpp.o CMakeFiles/BigInteger.dir/big_integer.cpp.o CMakeFiles/BigInteger.dir/rational.cpp.o -o BigInteger 

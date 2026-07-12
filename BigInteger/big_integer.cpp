@@ -61,6 +61,13 @@ BigInteger::BigInteger(const std::string& str) {
     }
 }
 
+BigInteger::BigInteger(const BigInteger& num) = default;
+
+BigInteger& BigInteger::operator=(BigInteger num) & {
+    this->swap(num);
+    return *this;
+}
+
 // Local functions
 void BigInteger::convert_system(unsigned long long num) {
     if (num == 0) {
@@ -314,7 +321,12 @@ std::string BigInteger::toString() const {
 }
 
 void BigInteger::changeSignum() {
-    is_positive = !is_positive;
+    if (*this != 0) is_positive = !is_positive;
+}
+
+void BigInteger::swap(BigInteger& num) {
+    std::swap(digits, num.digits);
+    std::swap(is_positive, num.is_positive);
 }
 
 BigInteger BigInteger::operator-() const {
