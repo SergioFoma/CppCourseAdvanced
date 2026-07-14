@@ -92,7 +92,7 @@ int main() {
 
     */
 
-    Rational r1;
+    /*Rational r1;
     rational_dump(r1);
 
     BigInteger num("12345");
@@ -101,11 +101,18 @@ int main() {
 
     Rational r3(-37);
     rational_dump(r3);
+    */
 
-    BigInteger num1(0);
-    BigInteger num2(-5);
+    BigInteger num1("2000000000");
+    BigInteger num2("999999999");
     Rational r4(num1, num2);
     rational_dump(r4);
+
+    //std::string str = r4.toString();
+    //std::cout << str << '\n';
+
+    std::cout << "asDecimal = " << r4.asDecimal(10) << '\n';
+    std::cout << "double " << (double)r4 << '\n';
 }
 
 void big_integer_dump(const BigInteger& integer) {

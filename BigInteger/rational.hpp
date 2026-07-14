@@ -16,6 +16,10 @@ public:
     
     const BigInteger& get_numerator() const;
     const BigInteger& get_denominator() const;
+
+    std::string toString() const;
+    std::string asDecimal(size_t precision) const;
+    explicit operator double() const;
 };
 
 void reduce_fractions(BigInteger& numerator, BigInteger& denominator);

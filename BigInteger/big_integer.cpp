@@ -136,6 +136,7 @@ void BigInteger::knuth_div(const BigInteger& divider, BigInteger& quotient, BigI
         }
         r_digits.push_back(r);
         std::reverse(digits.begin(), digits.end());
+        std::reverse(q_digits.begin(), q_digits.end());
         return ;
     }
 
@@ -568,7 +569,8 @@ BigInteger& BigInteger::operator/=(const BigInteger& num) {
     BigInteger quotient, remainder;
 
     this->knuth_div(num, quotient, remainder);
-    is_positive = old_positive; 
+    if (quotient.digits.size() == 1 && quotient.digits[0] == 0) is_positive = true;
+    else is_positive = old_positive; 
     digits = std::move(quotient.digits);
     return *this;
 }
