@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <memory_resource>
 
 #include "rational.hpp"
 
@@ -13,6 +15,8 @@ Rational::Rational(const BigInteger& numerator, const BigInteger& denominator): 
     reduce_fractions(this->numerator, this->denominator);
     this->get_conical_form();
 }
+
+Rational::Rational(const Rational& fraction): Rational(fraction.numerator, fraction.denominator) {}
 
 // Local functions
 void Rational::get_conical_form() {
@@ -134,6 +138,103 @@ Rational::operator double() const {
     return std::stod(this->asDecimal(max_digits));
 }
 
+Rational& Rational::operator=(const Rational& fraction) & {
+    numerator = fraction.numerator;
+    denominator = fraction.denominator;
+
+    return *this;
+}
+
+Rational& Rational::operator+=(const Rational& fraction) {
+    numerator = numerator * fraction.denominator + denominator * fraction.numerator;
+    denominator *= fraction.denominator;
+    reduce_fractions(numerator, denominator);
+    this->get_conical_form();
+    return *this;
+}
+
+Rational& Rational::operator-=(const Rational& fraction) {
+    numerator = numerator * fraction.denominator - denominator * fraction.numerator;
+    denominator *= fraction.denominator;
+    reduce_fractions(numerator, denominator);
+    this->get_conical_form();
+    return *this;
+}
+
+Rational& Rational::operator*=(const Rational& fraction) {
+    numerator *= fraction.numerator;
+    denominator *= fraction.denominator;
+    reduce_fractions(numerator, denominator);
+    this->get_conical_form();
+    return *this;
+}
+
+Rational& Rational::operator/=(const Rational& fraction) {
+    Rational copy = fraction;
+    copy.numerator.swap(copy.denominator);
+    copy.get_conical_form();
+    *this *= copy;
+    return *this;
+}
+
+Rational Rational::operator-() const {
+    Rational copy = *this;
+    copy.numerator.changeSignum();
+    return copy;
+}
+
+// Functions
+Rational operator+(const Rational& first, const Rational& second) {
+    Rational copy = first;
+    copy += second;
+    return copy;
+}
+
+Rational operator-(const Rational& first, const Rational& second) {
+    Rational copy = first;
+    copy -= second;
+    return copy;
+}
+
+Rational operator*(const Rational& first, const Rational& second) {
+    Rational copy = first;
+    copy *= second;
+    return copy;
+}
+
+Rational operator/(const Rational& first, const Rational& second) {
+    Rational copy = first;
+    copy /= second;
+    return copy;
+}
+
+bool operator<(const Rational& first, const Rational& second) {
+    return first.numerator * second.denominator < second.numerator * first.denominator;
+}
+
+bool operator==(const Rational& first, const Rational& second) {
+    if (first.numerator   != second.numerator)   return false;
+    if (first.denominator != second.denominator) return false;
+    
+    return true;
+}
+
+bool operator>(const Rational& first, const Rational& second) {
+    return second < first;
+}
+
+bool operator<=(const Rational& first, const Rational& second) {
+    return !(first > second);
+}
+
+bool operator>=(const Rational& first, const Rational& second) {
+    return !(first < second);
+}
+
+bool operator!=(const Rational& first, const Rational& second) {
+    return !(first == second);
+}
+
 // Getters
 const BigInteger& Rational::get_numerator() const {
     return this->numerator;
@@ -142,3 +243,33 @@ const BigInteger& Rational::get_numerator() const {
 const BigInteger& Rational::get_denominator() const {
     return this->denominator;
 }
+
+std::ostream& operator<<(std::ostream& out, const Rational& fraction) {
+    std::string fract_str = fraction.toString();
+    out << fract_str;
+    return out;
+}
+
+std::istream& operator>>(std::istream& in, Rational& second) {
+    std::string fraction;
+    in >> fraction;
+
+    size_t offset = fraction.find('/');
+    if (offset == std::string::npos) {
+        second.numerator = BigInteger(fraction);
+        second.denominator = BigInteger(1);
+        return in;
+    }
+    
+    std::string int_str = fraction.substr(0, offset);
+    std::string fract_str = fraction.substr(offset + 1, fraction.size());
+
+    second.numerator = BigInteger(int_str);
+    second.denominator = BigInteger(fract_str);
+    reduce_fractions(second.numerator, second.denominator);
+    second.get_conical_form();
+    return in;
+}
+
+// Destructor
+Rational::~Rational() = default;

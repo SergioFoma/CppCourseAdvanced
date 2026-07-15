@@ -103,6 +103,7 @@ int main() {
     rational_dump(r3);
     */
 
+    /*
     BigInteger num1("2000000000");
     BigInteger num2("999999999");
     Rational r4(num1, num2);
@@ -113,6 +114,25 @@ int main() {
 
     std::cout << "asDecimal = " << r4.asDecimal(10) << '\n';
     std::cout << "double " << (double)r4 << '\n';
+    */
+
+    /*
+    BigInteger num3("-499999999"), num4("1000000000");
+    BigInteger num5("-511111111"), num6("1000000000");
+    Rational r5(num3, num4);
+    Rational r6(num5, num6);
+    
+    //r5 /= r6;
+    //rational_dump(r6);
+    //rational_dump(r5);
+
+    std::cout << "compare result = " << (r5 > r6) << '\n';
+    */
+
+    Rational from_keyboard;
+    std::cin >> from_keyboard;
+    rational_dump(from_keyboard);
+    std::cout << from_keyboard << '\n';
 }
 
 void big_integer_dump(const BigInteger& integer) {
@@ -126,5 +146,6 @@ void rational_dump(const Rational& rational) {
    big_integer_dump(rational.get_numerator());
    std::cout << "denominator:\n";
    big_integer_dump(rational.get_denominator());
+   std::cout << "conical form " << rational.toString();
    std::cout << "\n\n";
 }
